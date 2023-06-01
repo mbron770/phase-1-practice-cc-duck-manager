@@ -90,46 +90,54 @@
 // })
 
 
-
-
-const url = 'http://localhost:3000/ducks' 
+const url = 'http://localhost:3000/ducks'
 fetch(url)
 .then(response => response.json())
 .then(ducks => ducks.forEach(duck => renderDuck(duck)))
 
 const likeButton = document.querySelector('#duck-display-likes')
-likeButton.addEventListener('click', () => updateDuckLikes())
-const newDuckForm=document.querySelector("#new-duck-form")
-newDuckForm.addEventListener('submit', addNewDuck)
+likeButton.addEventListener('click', () => addLikes(likeButton))
+const newDuckForm = document.querySelector('#new-duck-form')
+newDuckForm.addEventListener('submit', e => addNewDuck(e))
 
-
-function renderDuck(duck) {
+function renderDuck(duck){
     const duckNav = document.querySelector('#duck-nav')
     const duckImage = document.createElement('img')
-    duckImage.src = duck.img_url
+    duckImage.src = duck.img_url 
     duckImage.addEventListener('click', () => {
-         const duckDisplay = document.querySelector('#duck-display')
-         duckDisplay.querySelector('#duck-display-name').textContent = duck.name
-         duckDisplay.querySelector('#duck-display-image').src = duck.img_url
-         duckDisplay.querySelector('#duck-display-likes').textContent = `${duck.likes} likes`
+       const duckDisplay = document.querySelector('#duck-display')
+       duckDisplay.querySelector('#duck-display-name').textContent = duck.name
+       duckDisplay.querySelector('#duck-display-image').src = duck.img_url
+       duckDisplay.querySelector('#duck-display-likes').textContent = `${duck.likes} likes`
+
     })
-    duckNav.append(duckImage) 
+    duckNav.append(duckImage)
 }
 
-function updateDuckLikes() {
+function addLikes(likeButton) {
     let numberOfLikes = parseInt(likeButton.textContent)
     numberOfLikes++
     likeButton.textContent = `${numberOfLikes} likes`
 }
 
 function addNewDuck(e) {
+    //const duckNav = document.querySelector('#duck-nav')
     e.preventDefault()
     const name = e.target['duck-name-input'].value
     const img_url = e.target['duck-image-input'].value 
-    const likes = 0
-    newDuckObj = {
+    const likes = 0 
+    const newDuckObj = {
         name, img_url, likes
     }
-    renderDuck(newDuckObj)
+
     document.querySelector('#new-duck-form').reset()
+
+    renderDuck(newDuckObj)
+
+
+    
+    
+    
 }
+
+
